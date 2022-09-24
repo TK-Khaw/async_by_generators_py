@@ -9,3 +9,29 @@ According to [wikipedia](https://en.wikipedia.org/wiki/Coroutine),
 >However, it is still possible to implement coroutines on top of a generator facility, with the aid of a top-level dispatcher routine (a trampoline, essentially) that passes control explicitly to child generators identified by tokens passed back from the generators
 
 This code intended to explore just that.
+
+Basically,
+
+```python
+def generator1(*args):
+	...
+
+def generator2():
+	...
+	yield async_module.Task(generator1(*args))
+```
+
+in this module is akin to 
+
+```python
+async def generator1(*args):
+	...
+
+async def generator2():
+	...
+	await generator1(*args)
+```
+
+in `asyncio`.
+
+Comparison can be found between `main.py` which use `async_module` implemented in this repository, and `main_asynio.py` which uses `asyncio`.
